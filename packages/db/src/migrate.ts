@@ -11,7 +11,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const migrationsDir = join(__dirname, '..', 'migrations');
 
 async function run(): Promise<void> {
-  const url = process.env.DATABASE_URL;
+  const url = process.env['DATABASE_URL'];
   if (!url) {
     process.stderr.write('DATABASE_URL is required\n');
     process.exit(1);
