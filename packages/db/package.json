@@ -1,0 +1,23 @@
+{
+  "name": "@grandcharter/db",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "echo \"No tests yet\"",
+    "migrate": "node dist/migrate.js",
+    "stress": "node scripts/run-stress.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/pg": "^8.11.0",
+    "typescript": "^5.4.0"
+  }
+}
