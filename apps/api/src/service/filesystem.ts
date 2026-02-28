@@ -234,7 +234,8 @@ export async function moveNode(
 
   if (newParentId === nodeId) throw new InvalidMoveError('Cannot move a node into itself');
 
-  let parent: { full_path_cache: string; depth: number } | undefined;
+  type ParentRow = { id: string; kind: string; full_path_cache: string; depth: number };
+  let parent: ParentRow | undefined;
   if (newParentId !== null) {
     const descRes = await q.query(
       `WITH RECURSIVE descendants AS (
@@ -252,7 +253,7 @@ export async function moveNode(
       `SELECT id, kind, full_path_cache, depth FROM nodes WHERE id = $1 AND workspace_id = $2`,
       [newParentId, workspaceId]
     );
-    parent = parentRes.rows[0] as { id: string; kind: string; full_path_cache: string; depth: number } | undefined;
+    parent = parentRes.rows[0] as ParentRow | undefined;
     if (!parent) throw new NotFoundError('Target folder not found');
     if (parent.kind !== 'folder') throw new NotFoundError('Target is not a folder');
   }

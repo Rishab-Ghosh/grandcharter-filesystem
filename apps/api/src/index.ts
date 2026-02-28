@@ -23,5 +23,5 @@ await fastify.register(nodeRoutes, { prefix: '/api', pool });
 await fastify.register(searchRoutes, { prefix: '/api', pool });
 await fastify.register(workspaceRoutes, { prefix: '/api/workspaces', pool });
 
-const port = Number(process.env.PORT) || 3001;
+const port = Number(process.env['PORT']) || 3001;
 await fastify.listen({ port, host: '0.0.0.0' });

@@ -6,7 +6,7 @@ import * as path from 'node:path';
 import type { Readable } from 'node:stream';
 
 function getRoot(): string {
-  const root = process.env.BLOB_STORAGE_ROOT;
+  const root = process.env['BLOB_STORAGE_ROOT'];
   if (!root) throw new Error('BLOB_STORAGE_ROOT is not set');
   return path.resolve(root);
 }
