@@ -158,7 +158,9 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
     setError(null);
     try {
       for (let i = 0; i < files.length; i++) {
-        await uploadFile(workspaceId, currentParentId, files[i]);
+        const file = files[i];
+        if (!file) continue;
+        await uploadFile(workspaceId, currentParentId, file);
       }
       loadNodes(currentParentId);
     } catch (e) {
