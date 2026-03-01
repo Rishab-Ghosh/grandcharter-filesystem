@@ -76,6 +76,13 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
     return () => clearTimeout(t);
   }, [searchQuery]);
 
+  const isSearchMode = searchResults !== null;
+  useEffect(() => {
+    if (isSearchMode) return;
+    const el = directoryInputRef.current;
+    if (el) el.setAttribute('webkitdirectory', '');
+  }, [isSearchMode]);
+
   const handleFolderClick = (node: Node) => {
     if (node.kind !== 'folder') return;
     setCurrentParentId(node.id);
@@ -180,7 +187,6 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
   };
 
   const list = searchResults ?? nodes;
-  const isSearchMode = searchResults !== null;
 
   return (
     <div style={{ maxWidth: 960, margin: '0 auto' }}>
@@ -231,10 +237,7 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
               onChange={handleUpload}
             />
             <input
-              ref={(el) => {
-                directoryInputRef.current = el;
-                if (el) el.setAttribute('webkitdirectory', '');
-              }}
+              ref={directoryInputRef}
               type="file"
               multiple
               style={{ display: 'none' }}
