@@ -88,6 +88,7 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
       setBreadcrumbPath([]);
     } else {
       const item = breadcrumbPath[index];
+      if (!item) return;
       setCurrentParentId(item.id);
       setBreadcrumbPath(breadcrumbPath.slice(0, index + 1));
     }
