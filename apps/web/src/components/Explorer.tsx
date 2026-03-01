@@ -488,7 +488,6 @@ export default function Explorer({ workspaceId }: { workspaceId: string }) {
       )}
       {modal === 'move' && modalNode && (
         <MoveModal
-          currentParentId={currentParentId}
           nodes={nodes}
           movingNodeId={modalNode.id}
           onClose={() => {
@@ -578,13 +577,11 @@ function RenameModal({
 }
 
 function MoveModal({
-  currentParentId,
   nodes,
   movingNodeId,
   onClose,
   onSubmit,
 }: {
-  currentParentId: string | null;
   nodes: Node[];
   movingNodeId: string;
   onClose: () => void;
