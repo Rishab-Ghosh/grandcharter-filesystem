@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import { createPool } from '@grandcharter/db';
+import { ensureStorageDirs } from './storage/index.js';
 import { healthRoutes } from './routes/health.js';
 import { folderRoutes } from './routes/folders.js';
 import { fileRoutes } from './routes/files.js';
@@ -22,6 +23,9 @@ await fastify.register(fileRoutes, { prefix: '/api', pool });
 await fastify.register(nodeRoutes, { prefix: '/api', pool });
 await fastify.register(searchRoutes, { prefix: '/api', pool });
 await fastify.register(workspaceRoutes, { prefix: '/api/workspaces', pool });
+
+const blobRoot = await ensureStorageDirs();
+fastify.log.info({ blobStorageRoot: blobRoot }, 'storage initialized');
 
 const port = Number(process.env['PORT']) || 3001;
 await fastify.listen({ port, host: '0.0.0.0' });
