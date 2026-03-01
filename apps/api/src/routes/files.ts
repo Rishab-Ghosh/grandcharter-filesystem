@@ -10,8 +10,10 @@ export async function fileRoutes(
   const { pool } = opts;
 
   fastify.post('/files/upload', async (request, reply) => {
+    request.log.info({ url: request.url }, 'upload request');
     const data = await request.file();
     if (!data) {
+      request.log.warn('upload: no file in request');
       return reply.status(400).send({ error: 'No file in request' });
     }
     const field = (name: string) => {
@@ -39,6 +41,7 @@ export async function fileRoutes(
       return reply.status(201).send(result);
     } catch (err) {
       await client.query('ROLLBACK').catch(() => {});
+      request.log.error({ err }, 'upload failed');
       if (err instanceof NotFoundError) return reply.status(404).send({ error: err.message });
       if (err instanceof ConflictError) return reply.status(409).send({ error: err.message });
       throw err;
