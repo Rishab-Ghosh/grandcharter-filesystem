@@ -129,9 +129,3 @@ Default workspace id for the web app is in seed example or set `NEXT_PUBLIC_WORK
 
 - **Unit/integration (API):** `pnpm --filter api test`. Requires `DATABASE_URL` and `BLOB_STORAGE_ROOT`. Runs storage tests (blob write, dedup, read stream, temp cleanup) and filesystem service tests (createFolder, createFileFromStream, listChildren, rename, move, getFileForDownload, searchNodes) in transactions with rollback.
 - **Stress/benchmark:** After migrations, from `packages/db`: `DATABASE_URL="..." pnpm run stress`. Seeds 300 files in one folder and 50 nested folders (new workspace/root/blob per run), then times listChildren x5, search x5, and one move-subtree. No blob storage required for the script (reuses one blob row).
-
----
-
-## 11. How AI tools were used
-
-Implementation was done incrementally: scaffold first, then DB schema and migrations, then blob storage, then service layer (create folder, create file from stream, list, rename, move), then download and search, then the explorer UI, then drag-and-drop and search-result folder navigation, then a performance/correctness pass and stress script. At each step the desired behavior, constraints, and “do not” list were specified in natural language; the model produced or edited code and short summaries. Architecture (adjacency list, path cache, content-addressed blobs, single-query patterns, LIMIT on search), tradeoffs (orphan blobs, no delete, no auth), and acceptance criteria (e.g. “backend as source of truth for invalid moves”, “no buffering”) were set by the human. Review and iteration were human-directed (e.g. “patch normalized_name to lowercase”, “add root-capable listing route”, “harden performance”). This README was written to match the repo as built and to state how the project was developed without overclaiming or sounding defensive.
